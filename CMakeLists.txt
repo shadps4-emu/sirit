@@ -56,7 +56,6 @@ if (MSVC)
         /Zi
         /Zo
         /EHsc
-        /Zc:throwingNew # Assumes new never returns null
         /Zc:inline # Omits inline functions from object-file output
         /DNOMINMAX
         /WX)

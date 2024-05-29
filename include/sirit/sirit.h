@@ -799,6 +799,10 @@ public:
     /// integers.
     Id OpSMin(Id result_type, Id x, Id y);
 
+    /// Result is y if y < x, either x or y if both x and y are zeros, otherwise x. If one operand is a NaN, the other
+    /// operand is the result. If both operands are NaN, the result is a NaN.
+    Id OpNMin(Id result_type, Id x, Id y);
+
     /// Result is y if x < y; otherwise result is x. Which operand is the result is undefined if one
     /// of the operands is a NaN.
     Id OpFMax(Id result_type, Id x, Id y);
@@ -810,6 +814,10 @@ public:
     /// Result is y if x < y; otherwise result is x, where x and y are interpreted as signed
     /// integers.
     Id OpSMax(Id result_type, Id x, Id y);
+
+    /// Result is y if x < y, either x or y if both x and y are zeros, otherwise x. If one operand is a NaN, the other
+    /// operand is the result. If both operands are NaN, the result is a NaN.
+    Id OpNMax(Id result_type, Id x, Id y);
 
     /// Result is min(max(x, minVal), maxVal). Result is undefined if minVal > maxVal.The semantics
     /// used by min() and max() are those of FMin and FMax.

@@ -71,7 +71,7 @@ public:
         if (insert_index + num_words <= words.size()) {
             return;
         }
-        words.resize(insert_index + GROW_STEP);
+        words.resize(insert_index + num_words);
     }
 
     std::span<const u32> Words() const noexcept {
@@ -156,7 +156,9 @@ public:
     }
 
     Stream& operator<<(Id value) {
-        assert(value.value != 0);
+        if (value.value == 0) {
+            std::abort();
+        }
         return *this << value.value;
     }
 

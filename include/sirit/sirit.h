@@ -1229,6 +1229,9 @@ public:
     /// otherwise, it is set to zero.
     Id OpGroupNonUniformBallot(Id result_type, Id scope, Id predicate);
 
+    /// Result is the Value of the invocation within the quad with a quad index equal to Index.
+    Id OpGroupNonUniformQuadBroadcast(Id result_type, Id scope, Id value, Id index);
+
     // Atomic
 
     /// Atomically load through Pointer using the given Semantics. All subparts of the value that is

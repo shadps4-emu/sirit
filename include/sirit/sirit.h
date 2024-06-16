@@ -672,6 +672,12 @@ public:
     /// Floating-point multiplication of Operand 1 and Operand 2.
     Id OpFMul(Id result_type, Id operand_1, Id operand_2);
 
+    /// Full signed interger multiplication of Operand 1 and Operand 2.
+    Id OpSMulExtended(Id result_type, Id operand_1, Id operand_2);
+
+    /// Full unsigned interger multiplication of Operand 1 and Operand 2.
+    Id OpUMulExtended(Id result_type, Id operand_1, Id operand_2);
+
     /// Unsigned-integer division of Operand 1 divided by Operand 2.
     Id OpUDiv(Id result_type, Id operand_1, Id operand_2);
 

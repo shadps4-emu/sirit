@@ -793,6 +793,9 @@ public:
     /// Result is the reciprocal of sqrt x. Result is undefined if x <= 0.
     Id OpInverseSqrt(Id result_type, Id x);
 
+    /// Result is a floating-point number from x and the corresponding integral exponent of two in exp.
+    Id OpLdexp(Id result_type, Id x, Id exp);
+
     /// Result is y if y < x; otherwise result is x. Which operand is the result is undefined if one
     /// of the operands is a NaN.
     Id OpFMin(Id result_type, Id x, Id y);

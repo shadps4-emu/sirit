@@ -73,9 +73,9 @@ public:
     // TODO: Change std::is_convertible_v to std::convertible_to when compilers
     // support it; same elsewhere.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) void AddEntryPoint(
-        spv::ExecutionModel execution_model, Id entry_point, std::string_view name,
-        Ts&&... interfaces) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    void AddEntryPoint(spv::ExecutionModel execution_model, Id entry_point, std::string_view name,
+                       Ts&&... interfaces) {
         AddEntryPoint(execution_model, std::move(entry_point), name,
                       std::span<const Id>({interfaces...}));
     }
@@ -86,8 +86,8 @@ public:
 
     /// Declare an execution mode for an entry point.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Literal>) void AddExecutionMode(
-        Id entry_point, spv::ExecutionMode mode, Ts&&... literals) {
+        requires(... && std::is_convertible_v<Ts, Literal>)
+    void AddExecutionMode(Id entry_point, spv::ExecutionMode mode, Ts&&... literals) {
         AddExecutionMode(entry_point, mode, std::span<const Literal>({literals...}));
     }
 
@@ -162,7 +162,8 @@ public:
 
     /// Returns type struct.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id TypeStruct(Ts&&... members) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id TypeStruct(Ts&&... members) {
         return TypeStruct(std::span<const Id>({members...}));
     }
 
@@ -177,8 +178,8 @@ public:
 
     /// Returns type function.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        TypeFunction(Id return_type, Ts&&... arguments) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id TypeFunction(Id return_type, Ts&&... arguments) {
         return TypeFunction(return_type, std::span<const Id>({arguments...}));
     }
 
@@ -213,8 +214,8 @@ public:
 
     /// Returns a numeric scalar constant.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        ConstantComposite(Id result_type, Ts&&... constituents) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id ConstantComposite(Id result_type, Ts&&... constituents) {
         return ConstantComposite(result_type, std::span<const Id>({constituents...}));
     }
 
@@ -238,8 +239,8 @@ public:
 
     /// Call a function.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpFunctionCall(Id result_type, Id function, Ts&&... arguments) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpFunctionCall(Id result_type, Id function, Ts&&... arguments) {
         return OpFunctionCall(result_type, function, std::span<const Id>({arguments...}));
     }
 
@@ -257,11 +258,11 @@ public:
     Id OpPhi(Id result_type, std::span<const Id> operands);
 
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpPhi(Id result_type, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpPhi(Id result_type, Ts&&... operands) {
         return OpPhi(result_type, std::span<const Id>({operands...}));
     }
-    
+
     /**
      * The SSA phi function. This instruction will be revisited when patching phi nodes.
      *
@@ -276,9 +277,9 @@ public:
 
     /// Declare a structured loop.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpLoopMerge(Id merge_block, Id continue_target, spv::LoopControlMask loop_control,
-                    Ts&&... literals) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpLoopMerge(Id merge_block, Id continue_target, spv::LoopControlMask loop_control,
+                   Ts&&... literals) {
         return OpLoopMerge(merge_block, continue_target, loop_control,
                            std::span<const Id>({literals...}));
     }
@@ -356,8 +357,8 @@ public:
 
     /// Create a pointer into a composite object that can be used with OpLoad and OpStore.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpAccessChain(Id result_type, Id base, Ts&&... indexes) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpAccessChain(Id result_type, Id base, Ts&&... indexes) {
         return OpAccessChain(result_type, base, std::span<const Id>({indexes...}));
     }
 
@@ -368,14 +369,16 @@ public:
     Id OpVectorInsertDynamic(Id result_type, Id vector, Id component, Id index);
 
     /// Select arbitrary components from two vectors to make a new vector.
-    Id OpVectorShuffle(Id result_type, Id vector_1, Id vector_2, std::span<const Literal> components);
+    Id OpVectorShuffle(Id result_type, Id vector_1, Id vector_2,
+                       std::span<const Literal> components);
 
     /// Select arbitrary components from two vectors to make a new vector.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Literal>) Id
-        OpVectorShuffle(Id result_type, Id vector_1, Id vector_2, Ts&&... components) {
+        requires(... && std::is_convertible_v<Ts, Literal>)
+    Id OpVectorShuffle(Id result_type, Id vector_1, Id vector_2, Ts&&... components) {
         const Literal stack_literals[] = {std::forward<Ts>(components)...};
-        return OpVectorShuffle(result_type, vector_1, vector_2, std::span<const Literal>{stack_literals});
+        return OpVectorShuffle(result_type, vector_1, vector_2,
+                               std::span<const Literal>{stack_literals});
     }
 
     /// Make a copy of a composite object, while modifying one part of it.
@@ -384,8 +387,8 @@ public:
 
     /// Make a copy of a composite object, while modifying one part of it.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Literal>) Id
-        OpCompositeInsert(Id result_type, Id object, Id composite, Ts&&... indexes) {
+        requires(... && std::is_convertible_v<Ts, Literal>)
+    Id OpCompositeInsert(Id result_type, Id object, Id composite, Ts&&... indexes) {
         const Literal stack_indexes[] = {std::forward<Ts>(indexes)...};
         return OpCompositeInsert(result_type, object, composite,
                                  std::span<const Literal>{stack_indexes});
@@ -396,8 +399,8 @@ public:
 
     /// Extract a part of a composite object.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Literal>) Id
-        OpCompositeExtract(Id result_type, Id composite, Ts&&... indexes) {
+        requires(... && std::is_convertible_v<Ts, Literal>)
+    Id OpCompositeExtract(Id result_type, Id composite, Ts&&... indexes) {
         const Literal stack_indexes[] = {std::forward<Ts>(indexes)...};
         return OpCompositeExtract(result_type, composite, std::span<const Literal>{stack_indexes});
     }
@@ -407,8 +410,8 @@ public:
 
     /// Construct a new composite object from a set of constituent objects that will fully form it.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpCompositeConstruct(Id result_type, Ts&&... ids) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpCompositeConstruct(Id result_type, Ts&&... ids) {
         return OpCompositeConstruct(result_type, std::span<const Id>({ids...}));
     }
 
@@ -419,15 +422,16 @@ public:
 
     /// Add a decoration to target.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Literal>) Id
-        Decorate(Id target, spv::Decoration decoration, Ts&&... literals) {
+        requires(... && std::is_convertible_v<Ts, Literal>)
+    Id Decorate(Id target, spv::Decoration decoration, Ts&&... literals) {
         const Literal stack_literals[] = {std::forward<Ts>(literals)...};
         return Decorate(target, decoration, std::span<const Literal>{stack_literals});
     }
 
     /// Add a decoration to target.
     template <typename T>
-    requires std::is_enum_v<T> Id Decorate(Id target, spv::Decoration decoration, T literal) {
+        requires std::is_enum_v<T>
+    Id Decorate(Id target, spv::Decoration decoration, T literal) {
         return Decorate(target, decoration, static_cast<std::uint32_t>(literal));
     }
 
@@ -435,9 +439,9 @@ public:
                       std::span<const Literal> literals = {});
 
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Literal>) Id
-        MemberDecorate(Id structure_type, Literal member, spv::Decoration decoration,
-                       Ts&&... literals) {
+        requires(... && std::is_convertible_v<Ts, Literal>)
+    Id MemberDecorate(Id structure_type, Literal member, spv::Decoration decoration,
+                      Ts&&... literals) {
         const Literal stack_literals[] = {std::forward<Ts>(literals)...};
         return MemberDecorate(structure_type, member, decoration,
                               std::span<const Literal>{stack_literals});
@@ -718,8 +722,8 @@ public:
 
     /// Execute an instruction in an imported set of extended instructions.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpExtInst(Id result_type, Id set, std::uint32_t instruction, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpExtInst(Id result_type, Id set, std::uint32_t instruction, Ts&&... operands) {
         return OpExtInst(result_type, set, instruction, std::span<const Id>({operands...}));
     }
 
@@ -793,7 +797,8 @@ public:
     /// Result is the reciprocal of sqrt x. Result is undefined if x <= 0.
     Id OpInverseSqrt(Id result_type, Id x);
 
-    /// Result is a floating-point number from x and the corresponding integral exponent of two in exp.
+    /// Result is a floating-point number from x and the corresponding integral exponent of two in
+    /// exp.
     Id OpLdexp(Id result_type, Id x, Id exp);
 
     /// Result is y if y < x; otherwise result is x. Which operand is the result is undefined if one
@@ -808,8 +813,8 @@ public:
     /// integers.
     Id OpSMin(Id result_type, Id x, Id y);
 
-    /// Result is y if y < x, either x or y if both x and y are zeros, otherwise x. If one operand is a NaN, the other
-    /// operand is the result. If both operands are NaN, the result is a NaN.
+    /// Result is y if y < x, either x or y if both x and y are zeros, otherwise x. If one operand
+    /// is a NaN, the other operand is the result. If both operands are NaN, the result is a NaN.
     Id OpNMin(Id result_type, Id x, Id y);
 
     /// Result is y if x < y; otherwise result is x. Which operand is the result is undefined if one
@@ -824,8 +829,8 @@ public:
     /// integers.
     Id OpSMax(Id result_type, Id x, Id y);
 
-    /// Result is y if x < y, either x or y if both x and y are zeros, otherwise x. If one operand is a NaN, the other
-    /// operand is the result. If both operands are NaN, the result is a NaN.
+    /// Result is y if x < y, either x or y if both x and y are zeros, otherwise x. If one operand
+    /// is a NaN, the other operand is the result. If both operands are NaN, the result is a NaN.
     Id OpNMax(Id result_type, Id x, Id y);
 
     /// Result is min(max(x, minVal), maxVal). Result is undefined if minVal > maxVal.The semantics
@@ -943,9 +948,9 @@ public:
 
     /// Sample an image with an implicit level of detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleImplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                 spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleImplicitLod(Id result_type, Id sampled_image, Id coordinate,
+                                spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleImplicitLod(result_type, sampled_image, coordinate, image_operands,
                                         std::span<const Id>({operands...}));
     }
@@ -957,9 +962,9 @@ public:
 
     /// Sample an image using an explicit level of detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleExplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                 spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleExplicitLod(Id result_type, Id sampled_image, Id coordinate,
+                                spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleExplicitLod(result_type, sampled_image, coordinate, image_operands,
                                         std::span<const Id>({operands...}));
     }
@@ -972,9 +977,9 @@ public:
 
     /// Sample an image doing depth-comparison with an implicit level of detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleDrefImplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleDrefImplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleDrefImplicitLod(result_type, sampled_image, coordinate, dref,
                                             image_operands, std::span<const Id>({operands...}));
     }
@@ -986,9 +991,9 @@ public:
 
     /// Sample an image doing depth-comparison using an explicit level of detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleDrefExplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleDrefExplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleDrefExplicitLod(result_type, sampled_image, coordinate, dref,
                                             image_operands, std::span<const Id>({operands...}));
     }
@@ -1001,9 +1006,9 @@ public:
 
     /// Sample an image with with a project coordinate and an implicit level of detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleProjImplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleProjImplicitLod(Id result_type, Id sampled_image, Id coordinate,
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjImplicitLod(result_type, sampled_image, coordinate, image_operands,
                                             std::span<const Id>({operands...}));
     }
@@ -1015,9 +1020,9 @@ public:
 
     /// Sample an image with a project coordinate using an explicit level of detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleProjExplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleProjExplicitLod(Id result_type, Id sampled_image, Id coordinate,
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjExplicitLod(result_type, sampled_image, coordinate, image_operands,
                                             std::span<const Id>({operands...}));
     }
@@ -1032,9 +1037,9 @@ public:
     /// Sample an image with a project coordinate, doing depth-comparison, with an implicit level of
     /// detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleProjDrefImplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                         spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleProjDrefImplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
+                                        spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjDrefImplicitLod(result_type, sampled_image, coordinate, dref,
                                                 image_operands, std::span<const Id>({operands...}));
     }
@@ -1048,9 +1053,9 @@ public:
     /// Sample an image with a project coordinate, doing depth-comparison, using an explicit level
     /// of detail.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageSampleProjDrefExplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                         spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageSampleProjDrefExplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
+                                        spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjDrefExplicitLod(result_type, sampled_image, coordinate, dref,
                                                 image_operands, std::span<const Id>({operands...}));
     }
@@ -1062,9 +1067,9 @@ public:
 
     /// Fetch a single texel from an image whose Sampled operand is 1.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageFetch(Id result_type, Id sampled_image, Id coordinate,
-                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageFetch(Id result_type, Id sampled_image, Id coordinate,
+                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageFetch(result_type, sampled_image, coordinate, image_operands,
                             std::span<const Id>({operands...}));
     }
@@ -1076,9 +1081,9 @@ public:
 
     /// Gathers the requested component from four texels.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageGather(Id result_type, Id sampled_image, Id coordinate, Id component,
-                      spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageGather(Id result_type, Id sampled_image, Id coordinate, Id component,
+                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageGather(result_type, sampled_image, coordinate, component, image_operands,
                              std::span<const Id>({operands...}));
     }
@@ -1090,9 +1095,9 @@ public:
 
     /// Gathers the requested depth-comparison from four texels.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageDrefGather(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                          spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageDrefGather(Id result_type, Id sampled_image, Id coordinate, Id dref,
+                         spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageDrefGather(result_type, sampled_image, coordinate, dref, image_operands,
                                  std::span<const Id>({operands...}));
     }
@@ -1104,9 +1109,9 @@ public:
 
     /// Read a texel from an image without a sampler.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageRead(Id result_type, Id sampled_image, Id coordinate,
-                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageRead(Id result_type, Id sampled_image, Id coordinate,
+                   spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageRead(result_type, sampled_image, coordinate, image_operands,
                            std::span<const Id>({operands...}));
     }
@@ -1118,9 +1123,9 @@ public:
 
     /// Write a texel to an image without a sampler.
     template <typename... Ts>
-    requires(...&& std::is_convertible_v<Ts, Id>) Id
-        OpImageWrite(Id image, Id coordinate, Id texel, spv::ImageOperandsMask image_operands,
-                     Ts&&... operands) {
+        requires(... && std::is_convertible_v<Ts, Id>)
+    Id OpImageWrite(Id image, Id coordinate, Id texel, spv::ImageOperandsMask image_operands,
+                    Ts&&... operands) {
         return OpImageWrite(image, coordinate, texel, image_operands,
                             std::span<const Id>({operands...}));
     }
@@ -1342,6 +1347,62 @@ public:
     /// 2) get a New Value by the bitwise exclusive OR of Original Value and Value, and
     /// 3) store the New Value back through Pointer.
     Id OpAtomicXor(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by finding the largest unsigned integer between the Original Value and
+    /// the Value. 3) Store the New Value back through Pointer.
+    Id OpAtomicUMax(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by performing a bitwise AND operation between the Original Value and the
+    /// Value. 3) Store the New Value back through Pointer.
+    Id OpAtomicAnd(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by performing a bitwise OR operation between the Original Value and the
+    /// Value. 3) Store the New Value back through Pointer.
+    Id OpAtomicOr(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by performing a bitwise exclusive OR (XOR) operation between the Original
+    /// Value and the Value. 3) Store the New Value back through Pointer.
+    Id OpAtomicXor(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by incrementing the Original Value by one.
+    /// 3) Store the New Value back through Pointer.
+    Id OpAtomicInc(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by decrementing the Original Value by one.
+    /// 3) Store the New Value back through Pointer.
+    Id OpAtomicDec(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by finding the minimum between the Original Value and the Value.
+    /// 3) Store the New Value back through Pointer.
+    Id OpAtomicMin(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) Load through Pointer to get an Original Value.
+    /// 2) Get a New Value by finding the maximum between the Original Value and the Value.
+    /// 3) Store the New Value back through Pointer.
+    Id OpAtomicMax(Id result_type, Id pointer, Id memory, Id semantics, Id value);
 
 private:
     Id GetGLSLstd450();

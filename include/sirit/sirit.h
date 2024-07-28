@@ -1351,34 +1351,6 @@ public:
     /// Perform the following steps atomically with respect to any other atomic accesses within
     /// Scope to the same location:
     /// 1) Load through Pointer to get an Original Value.
-    /// 2) Get a New Value by finding the largest unsigned integer between the Original Value and
-    /// the Value. 3) Store the New Value back through Pointer.
-    Id OpAtomicUMax(Id result_type, Id pointer, Id memory, Id semantics, Id value);
-
-    /// Perform the following steps atomically with respect to any other atomic accesses within
-    /// Scope to the same location:
-    /// 1) Load through Pointer to get an Original Value.
-    /// 2) Get a New Value by performing a bitwise AND operation between the Original Value and the
-    /// Value. 3) Store the New Value back through Pointer.
-    Id OpAtomicAnd(Id result_type, Id pointer, Id memory, Id semantics, Id value);
-
-    /// Perform the following steps atomically with respect to any other atomic accesses within
-    /// Scope to the same location:
-    /// 1) Load through Pointer to get an Original Value.
-    /// 2) Get a New Value by performing a bitwise OR operation between the Original Value and the
-    /// Value. 3) Store the New Value back through Pointer.
-    Id OpAtomicOr(Id result_type, Id pointer, Id memory, Id semantics, Id value);
-
-    /// Perform the following steps atomically with respect to any other atomic accesses within
-    /// Scope to the same location:
-    /// 1) Load through Pointer to get an Original Value.
-    /// 2) Get a New Value by performing a bitwise exclusive OR (XOR) operation between the Original
-    /// Value and the Value. 3) Store the New Value back through Pointer.
-    Id OpAtomicXor(Id result_type, Id pointer, Id memory, Id semantics, Id value);
-
-    /// Perform the following steps atomically with respect to any other atomic accesses within
-    /// Scope to the same location:
-    /// 1) Load through Pointer to get an Original Value.
     /// 2) Get a New Value by incrementing the Original Value by one.
     /// 3) Store the New Value back through Pointer.
     Id OpAtomicInc(Id result_type, Id pointer, Id memory, Id semantics, Id value);

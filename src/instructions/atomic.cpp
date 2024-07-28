@@ -101,4 +101,28 @@ Id Module::OpAtomicXor(Id result_type, Id pointer, Id memory, Id semantics, Id v
                  << value << EndOp{};
 }
 
+Id Module::OpAtomicInc(Id result_type, Id pointer, Id memory, Id semantics, Id value) {
+    code->Reserve(6);
+    return *code << OpId{spv::Op::OpAtomicIIncrement, result_type} << pointer << memory << semantics
+                 << value << EndOp{};
+}
+
+Id Module::OpAtomicDec(Id result_type, Id pointer, Id memory, Id semantics, Id value) {
+    code->Reserve(6);
+    return *code << OpId{spv::Op::OpAtomicIDecrement, result_type} << pointer << memory << semantics
+                 << value << EndOp{};
+}
+
+Id Module::OpAtomicMin(Id result_type, Id pointer, Id memory, Id semantics, Id value) {
+    code->Reserve(7);
+    return *code << OpId{spv::Op::OpAtomicSMin, result_type} << pointer << memory << semantics
+                 << value << EndOp{};
+}
+
+Id Module::OpAtomicMax(Id result_type, Id pointer, Id memory, Id semantics, Id value) {
+    code->Reserve(7);
+    return *code << OpId{spv::Op::OpAtomicSMax, result_type} << pointer << memory << semantics
+                 << value << EndOp{};
+}
+
 } // namespace Sirit

@@ -21,8 +21,8 @@ Module::Module(u32 version_)
     : version{version_}, ext_inst_imports{std::make_unique<Stream>(&bound)},
       entry_points{std::make_unique<Stream>(&bound)},
       execution_modes{std::make_unique<Stream>(&bound)}, debug{std::make_unique<Stream>(&bound)},
-      annotations{std::make_unique<Stream>(&bound)}, declarations{std::make_unique<Declarations>(
-                                                         &bound)},
+      annotations{std::make_unique<Stream>(&bound)},
+      declarations{std::make_unique<Declarations>(&bound)},
       global_variables{std::make_unique<Stream>(&bound)}, code{std::make_unique<Stream>(&bound)} {}
 
 Module::~Module() = default;
@@ -137,6 +137,15 @@ Id Module::GetGLSLstd450() {
                                          << EndOp{};
     }
     return *glsl_std_450;
+}
+
+Id Module::GetNonSemanticDebugPrintf() {
+    if (!non_semantic_debug_printf) {
+        ext_inst_imports->Reserve(3 + 4);
+        non_semantic_debug_printf = *ext_inst_imports << OpId{spv::Op::OpExtInstImport}
+                                                      << "NonSemantic.DebugPrintf" << EndOp{};
+    }
+    return *non_semantic_debug_printf;
 }
 
 } // namespace Sirit

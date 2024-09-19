@@ -12,14 +12,14 @@
 namespace Sirit {
 
 Id Module::Name(Id target, std::string_view name) {
-    debug->Reserve(3 + WordsInString(name));
-    *debug << spv::Op::OpName << target << name << EndOp{};
+    debug_name->Reserve(3 + WordsInString(name));
+    *debug_name << spv::Op::OpName << target << name << EndOp{};
     return target;
 }
 
 Id Module::MemberName(Id type, u32 member, std::string_view name) {
-    debug->Reserve(4 + WordsInString(name));
-    *debug << spv::Op::OpMemberName << type << member << name << EndOp{};
+    debug_name->Reserve(4 + WordsInString(name));
+    *debug_name << spv::Op::OpMemberName << type << member << name << EndOp{};
     return type;
 }
 

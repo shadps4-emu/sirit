@@ -1373,6 +1373,7 @@ private:
     std::unique_ptr<Stream> entry_points;
     std::unique_ptr<Stream> execution_modes;
     std::unique_ptr<Stream> debug;
+    std::unique_ptr<Stream> debug_name;
     std::unique_ptr<Stream> annotations;
     std::unique_ptr<Declarations> declarations;
     std::unique_ptr<Stream> global_variables;

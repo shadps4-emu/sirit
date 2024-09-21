@@ -1347,6 +1347,8 @@ public:
     /// 3) store the New Value back through Pointer.
     Id OpAtomicXor(Id result_type, Id pointer, Id memory, Id semantics, Id value);
 
+    // Print a message for vulkan layers to use, e.g. renderdoc
+    // Usage is like C printf
     Id OpDebugPrintf(Id fmt, std::span<const Id> fmt_args);
 
 private:

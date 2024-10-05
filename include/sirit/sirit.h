@@ -1347,8 +1347,13 @@ public:
     /// 3) store the New Value back through Pointer.
     Id OpAtomicXor(Id result_type, Id pointer, Id memory, Id semantics, Id value);
 
+    // Print a message for vulkan layers to use, e.g. renderdoc
+    // Usage is like C printf
+    Id OpDebugPrintf(Id fmt, std::span<const Id> fmt_args);
+
 private:
     Id GetGLSLstd450();
+    Id GetNonSemanticDebugPrintf();
 
     std::uint32_t version{};
     std::uint32_t bound{};
@@ -1356,6 +1361,7 @@ private:
     std::unordered_set<std::string> extensions;
     std::unordered_set<spv::Capability> capabilities;
     std::optional<Id> glsl_std_450;
+    std::optional<Id> non_semantic_debug_printf;
 
     spv::AddressingModel addressing_model{spv::AddressingModel::Logical};
     spv::MemoryModel memory_model{spv::MemoryModel::GLSL450};
@@ -1364,6 +1370,7 @@ private:
     std::unique_ptr<Stream> entry_points;
     std::unique_ptr<Stream> execution_modes;
     std::unique_ptr<Stream> debug;
+    std::unique_ptr<Stream> debug_name;
     std::unique_ptr<Stream> annotations;
     std::unique_ptr<Declarations> declarations;
     std::unique_ptr<Stream> global_variables;

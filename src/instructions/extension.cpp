@@ -4,7 +4,9 @@
  * 3-Clause BSD License
  */
 
+#include <iterator>
 #include <spirv/unified1/GLSL.std.450.h>
+#include <spirv/unified1/NonSemanticDebugPrintf.h>
 
 #include "sirit/sirit.h"
 
@@ -79,5 +81,13 @@ DEFINE_UNARY(OpNormalize, GLSLstd450Normalize)
 DEFINE_BINARY(OpCross, GLSLstd450Cross)
 DEFINE_UNARY(OpLength, GLSLstd450Length)
 DEFINE_TRINARY(OpFMix, GLSLstd450FMix)
+
+Id Module::OpDebugPrintf(Id fmt, std::span<const Id> fmt_args) {
+    std::vector<Id> operands;
+    operands.push_back(fmt);
+    std::copy(fmt_args.begin(), fmt_args.end(), std::back_inserter(operands));
+    return OpExtInst(TypeVoid(), GetNonSemanticDebugPrintf(), NonSemanticDebugPrintfDebugPrintf,
+                     operands);
+}
 
 } // namespace Sirit

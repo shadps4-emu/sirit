@@ -21,8 +21,8 @@ Module::Module(u32 version_)
     : version{version_}, ext_inst_imports{std::make_unique<Stream>(&bound)},
       entry_points{std::make_unique<Stream>(&bound)},
       execution_modes{std::make_unique<Stream>(&bound)}, debug{std::make_unique<Stream>(&bound)},
-      annotations{std::make_unique<Stream>(&bound)}, declarations{std::make_unique<Declarations>(
-                                                         &bound)},
+      debug_name{std::make_unique<Stream>(&bound)}, annotations{std::make_unique<Stream>(&bound)},
+      declarations{std::make_unique<Declarations>(&bound)},
       global_variables{std::make_unique<Stream>(&bound)}, code{std::make_unique<Stream>(&bound)} {}
 
 Module::~Module() = default;
@@ -60,6 +60,7 @@ std::vector<u32> Module::Assemble() const {
     insert(entry_points->Words());
     insert(execution_modes->Words());
     insert(debug->Words());
+    insert(debug_name->Words());
     insert(annotations->Words());
     insert(declarations->Words());
     insert(global_variables->Words());
@@ -131,12 +132,24 @@ Id Module::AddGlobalVariable(Id result_type, spv::StorageClass storage_class,
 }
 
 Id Module::GetGLSLstd450() {
+    const char* extname = "GLSL.std.450";
+    size_t len = WordsInString(extname);
     if (!glsl_std_450) {
-        ext_inst_imports->Reserve(3 + 4);
-        glsl_std_450 = *ext_inst_imports << OpId{spv::Op::OpExtInstImport} << "GLSL.std.450"
-                                         << EndOp{};
+        ext_inst_imports->Reserve(3 + len);
+        glsl_std_450 = *ext_inst_imports << OpId{spv::Op::OpExtInstImport} << extname << EndOp{};
     }
     return *glsl_std_450;
+}
+
+Id Module::GetNonSemanticDebugPrintf() {
+    const char* extname = "NonSemantic.DebugPrintf";
+    size_t len = WordsInString(extname);
+    if (!non_semantic_debug_printf) {
+        ext_inst_imports->Reserve(3 + len);
+        non_semantic_debug_printf = *ext_inst_imports << OpId{spv::Op::OpExtInstImport} << extname
+                                                      << EndOp{};
+    }
+    return *non_semantic_debug_printf;
 }
 
 } // namespace Sirit

@@ -843,6 +843,10 @@ public:
     /// Computes a * b + c.
     Id OpFma(Id result_type, Id a, Id b, Id c);
 
+    /// Result is a structure containing x split into a floating-point significand in the range
+    /// (-1.0, 0.5] or [0.5, 1.0) and an integral exponent of 2, such that: x = significand * 2^exponent
+    Id OpFrexpStruct(Id result_type, Id x);
+
     /// Result is the unsigned integer obtained by converting the components of a two-component
     /// floating-point vector to the 16-bit OpTypeFloat, and then packing these two 16-bit integers
     /// into a 32-bit unsigned integer.

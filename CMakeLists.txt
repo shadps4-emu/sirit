@@ -1,6 +1,6 @@
 # This file has been adapted from dynarmic
 
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.18)
 project(sirit CXX)
 
 # Determine if we're built as a subproject (using add_subdirectory)
@@ -88,7 +88,6 @@ if (SIRIT_USE_SYSTEM_SPIRV_HEADERS)
     find_package(SPIRV-Headers REQUIRED)
 else()
     add_subdirectory(externals/SPIRV-Headers EXCLUDE_FROM_ALL)
-    add_library(SPIRV-Headers::SPIRV-Headers ALIAS SPIRV-Headers)
 endif()
 
 # Sirit project files

@@ -84,8 +84,7 @@ Id Module::OpSampledImage(Id result_type, Id image, Id sampler) {
 Id Module::OpImageWrite(Id image, Id coordinate, Id texel,
                         std::optional<spv::ImageOperandsMask> image_operands,
                         std::span<const Id> operands) {
-    assert(image_operands.has_value() != operands.empty());
-    code->Reserve(5 + operands.size());
+    code->Reserve(4 + (image_operands.has_value() ? 1 : 0) + operands.size());
     return *code << spv::Op::OpImageWrite << image << coordinate << texel << image_operands
                  << operands << EndOp{};
 }

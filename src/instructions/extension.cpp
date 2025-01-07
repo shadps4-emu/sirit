@@ -5,6 +5,7 @@
  */
 
 #include <iterator>
+#include <spirv/unified1/AMD_gcn_shader.h>
 #include <spirv/unified1/GLSL.std.450.h>
 #include <spirv/unified1/NonSemanticDebugPrintf.h>
 
@@ -89,6 +90,18 @@ Id Module::OpDebugPrintf(Id fmt, std::span<const Id> fmt_args) {
     std::copy(fmt_args.begin(), fmt_args.end(), std::back_inserter(operands));
     return OpExtInst(TypeVoid(), GetNonSemanticDebugPrintf(), NonSemanticDebugPrintfDebugPrintf,
                      operands);
+}
+
+Id Module::OpCubeFaceCoordAMD(Id result_type, Id cube_coords) {
+    return OpExtInst(result_type, GetAmdGcnShader(), AMD_gcn_shaderCubeFaceCoordAMD, cube_coords);
+}
+
+Id Module::OpCubeFaceIndexAMD(Id result_type, Id cube_coords) {
+    return OpExtInst(result_type, GetAmdGcnShader(), AMD_gcn_shaderCubeFaceIndexAMD, cube_coords);
+}
+
+Id Module::OpTimeAMD(Id result_type) {
+    return OpExtInst(result_type, GetAmdGcnShader(), AMD_gcn_shaderTimeAMD);
 }
 
 } // namespace Sirit

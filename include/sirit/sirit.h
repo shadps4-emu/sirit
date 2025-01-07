@@ -261,7 +261,7 @@ public:
         OpPhi(Id result_type, Ts&&... operands) {
         return OpPhi(result_type, std::span<const Id>({operands...}));
     }
-    
+
     /**
      * The SSA phi function. This instruction will be revisited when patching phi nodes.
      *
@@ -1355,9 +1355,24 @@ public:
     // Usage is like C printf
     Id OpDebugPrintf(Id fmt, std::span<const Id> fmt_args);
 
+    /// Returns a two-component floating point vector that represents the 2D texture coordinates
+    /// that would be used for accessing the selected cube map face for the given cube map texture
+    /// coordinates given as a parameter.
+    Id OpCubeFaceCoordAMD(Id result_type, Id cube_coords);
+
+    /// Returns a single floating point value that represents the index of the cube map face that
+    /// would be accessed by texture lookup functions for the cube map texture coordinates given
+    /// as parameter.
+    Id OpCubeFaceIndexAMD(Id result_type, Id cube_coords);
+
+    /// Returns a 64-bit value representing the current execution clock as seen by the shader
+    /// processor.
+    Id OpTimeAMD(Id result_type);
+
 private:
     Id GetGLSLstd450();
     Id GetNonSemanticDebugPrintf();
+    Id GetAmdGcnShader();
 
     std::uint32_t version{};
     std::uint32_t bound{};
@@ -1366,6 +1381,7 @@ private:
     std::unordered_set<spv::Capability> capabilities;
     std::optional<Id> glsl_std_450;
     std::optional<Id> non_semantic_debug_printf;
+    std::optional<Id> amd_gcn_shader;
 
     spv::AddressingModel addressing_model{spv::AddressingModel::Logical};
     spv::MemoryModel memory_model{spv::MemoryModel::GLSL450};

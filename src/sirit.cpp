@@ -152,4 +152,14 @@ Id Module::GetNonSemanticDebugPrintf() {
     return *non_semantic_debug_printf;
 }
 
+Id Module::GetAmdGcnShader() {
+    const char* extname = "SPV_AMD_gcn_shader";
+    size_t len = WordsInString(extname);
+    if (!amd_gcn_shader) {
+        ext_inst_imports->Reserve(3 + len);
+        amd_gcn_shader = *ext_inst_imports << OpId{spv::Op::OpExtInstImport} << extname << EndOp{};
+    }
+    return *amd_gcn_shader;
+}
+
 } // namespace Sirit

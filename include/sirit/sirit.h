@@ -853,8 +853,26 @@ public:
     Id OpPackHalf2x16(Id result_type, Id v);
 
     /// Result is the two-component floating-point vector with components obtained by unpacking a
-    /// 32-bit unsigned integer into a pair of 16-bit values.
+    /// 32-bit unsigned integer into a pair of floating-point 16-bit values.
     Id OpUnpackHalf2x16(Id result_type, Id v);
+
+    /// Result is the unsigned integer obtained by converting the components of a two-component
+    /// unsigned normalized floating-point vector to 16-bit integer values, and then packing these
+    /// two 16-bit integers into a 32-bit unsigned integer.
+    Id OpPackUnorm2x16(Id result_type, Id v);
+
+    /// Result is the two-component floating-point vector with components obtained by unpacking a
+    /// 32-bit unsigned integer into a pair of unsigned normalized 16-bit values.
+    Id OpUnpackUnorm2x16(Id result_type, Id v);
+
+    /// Result is the unsigned integer obtained by converting the components of a two-component
+    /// signed normalized floating-point vector to 16-bit integer values, and then packing these
+    /// two 16-bit integers into a 32-bit unsigned integer.
+    Id OpPackSnorm2x16(Id result_type, Id v);
+
+    /// Result is the two-component floating-point vector with components obtained by unpacking a
+    /// 32-bit unsigned integer into a pair of signed normalized 16-bit values.
+    Id OpUnpackSnorm2x16(Id result_type, Id v);
 
     /// Integer least-significant bit.
     Id OpFindILsb(Id result_type, Id value);

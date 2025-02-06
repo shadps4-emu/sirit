@@ -874,6 +874,24 @@ public:
     /// 32-bit unsigned integer into a pair of signed normalized 16-bit values.
     Id OpUnpackSnorm2x16(Id result_type, Id v);
 
+    /// Result is the unsigned integer obtained by converting the components of a four-component
+    /// unsigned normalized floating-point vector to 8-bit integer values, and then packing these
+    /// four 8-bit integers into a 32-bit unsigned integer.
+    Id OpPackUnorm4x8(Id result_type, Id v);
+
+    /// Result is the four-component floating-point vector with components obtained by unpacking a
+    /// 32-bit unsigned integer into four unsigned normalized 8-bit values.
+    Id OpUnpackUnorm4x8(Id result_type, Id v);
+
+    /// Result is the unsigned integer obtained by converting the components of a four-component
+    /// signed normalized floating-point vector to 8-bit integer values, and then packing these
+    /// four 8-bit integers into a 32-bit unsigned integer.
+    Id OpPackSnorm4x8(Id result_type, Id v);
+
+    /// Result is the four-component floating-point vector with components obtained by unpacking a
+    /// 32-bit unsigned integer into four signed normalized 8-bit values.
+    Id OpUnpackSnorm4x8(Id result_type, Id v);
+
     /// Integer least-significant bit.
     Id OpFindILsb(Id result_type, Id value);
 

@@ -1405,10 +1405,41 @@ public:
     /// processor.
     Id OpTimeAMD(Id result_type);
 
+    /// Result is the minimum of x, y, and z. Which operand is the result is undefined if one
+    /// of the operands is a NaN.
+    Id OpFMin3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the minimum of x, y, and z, interpreted as unsigned integers.
+    Id OpUMin3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the minimum of x, y, and z, interpreted as signed integers.
+    Id OpSMin3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the maximum of x, y, and z. Which operand is the result is undefined if one
+    /// of the operands is a NaN.
+    Id OpFMax3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the maximum of x, y, and z, interpreted as unsigned integers.
+    Id OpUMax3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the maximum of x, y, and z, interpreted as signed integers.
+    Id OpSMax3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the middle of x, y, and z. Which operand is the result is undefined if one
+    /// of the operands is a NaN.
+    Id OpFMid3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the middle of x, y, and z, interpreted as unsigned integers.
+    Id OpUMid3AMD(Id result_type, Id x, Id y, Id z);
+
+    /// Result is the middle of x, y, and z, interpreted as signed integers.
+    Id OpSMid3AMD(Id result_type, Id x, Id y, Id z);
+
 private:
     Id GetGLSLstd450();
     Id GetNonSemanticDebugPrintf();
     Id GetAmdGcnShader();
+    Id GetAmdShaderTrinaryMinMax();
 
     std::uint32_t version{};
     std::uint32_t bound{};
@@ -1418,6 +1449,7 @@ private:
     std::optional<Id> glsl_std_450;
     std::optional<Id> non_semantic_debug_printf;
     std::optional<Id> amd_gcn_shader;
+    std::optional<Id> amd_shader_trinary_minmax;
 
     spv::AddressingModel addressing_model{spv::AddressingModel::Logical};
     spv::MemoryModel memory_model{spv::MemoryModel::GLSL450};

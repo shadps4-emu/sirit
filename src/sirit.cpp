@@ -162,4 +162,14 @@ Id Module::GetAmdGcnShader() {
     return *amd_gcn_shader;
 }
 
+Id Module::GetAmdShaderTrinaryMinMax() {
+    const char* extname = "SPV_AMD_shader_trinary_minmax";
+    size_t len = WordsInString(extname);
+    if (!amd_shader_trinary_minmax) {
+        ext_inst_imports->Reserve(3 + len);
+        amd_shader_trinary_minmax = *ext_inst_imports << OpId{spv::Op::OpExtInstImport} << extname << EndOp{};
+    }
+    return *amd_shader_trinary_minmax;
+}
+
 } // namespace Sirit

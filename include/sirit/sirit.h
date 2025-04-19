@@ -589,6 +589,12 @@ public:
     /// Convert (value preserving) from unsigned integer to floating point.
     Id OpConvertUToF(Id result_type, Id operand);
 
+    /// Convert (value preserving) from unsigned integer to pointer.
+    Id OpConvertUToPtr(Id result_type, Id operand);
+
+    /// Convert (value preserving) from pointer to unsigned integer.
+    Id OpConvertPtrToU(Id result_type, Id operand);
+
     /// Convert (value preserving) unsigned width. This is either a truncate or a zero extend.
     Id OpUConvert(Id result_type, Id operand);
 

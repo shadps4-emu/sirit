@@ -56,7 +56,7 @@ public:
     std::vector<std::uint32_t> Assemble() const;
 
     /// Patches deferred phi nodes calling the passed function on each phi argument
-    void PatchDeferredPhi(const std::function<Id(std::size_t index)>& func);
+    void PatchDeferredPhi(const std::function<std::pair<Id, Id>(std::size_t arg, Id parent)>& func);
 
     /// Adds a SPIR-V extension.
     void AddExtension(std::string extension_name);

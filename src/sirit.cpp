@@ -69,7 +69,7 @@ std::vector<u32> Module::Assemble() const {
     return words;
 }
 
-void Module::PatchDeferredPhi(const std::function<Id(std::size_t index)>& func) {
+void Module::PatchDeferredPhi(const std::function<std::pair<Id, Id>(std::size_t arg, Id parent)>& func) {
     for (const u32 phi_index : deferred_phi_nodes) {
         const u32 first_word = code->Value(phi_index);
         [[maybe_unused]] const spv::Op op = static_cast<spv::Op>(first_word & 0xffff);
@@ -78,7 +78,10 @@ void Module::PatchDeferredPhi(const std::function<Id(std::size_t index)>& func) 
         const u32 num_args = (num_words - 3) / 2;
         u32 cursor = phi_index + 3;
         for (u32 arg = 0; arg < num_args; ++arg, cursor += 2) {
-            code->SetValue(cursor, func(arg).value);
+            const Id current_parent{code->Value(cursor + 1)};
+            const auto [variable, parent] = func(arg, current_parent);
+            code->SetValue(cursor, variable.value);
+            code->SetValue(cursor + 1, parent.value);
         }
     }
 }

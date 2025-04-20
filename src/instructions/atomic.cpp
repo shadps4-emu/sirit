@@ -83,6 +83,18 @@ Id Module::OpAtomicUMax(Id result_type, Id pointer, Id memory, Id semantics, Id 
                  << value << EndOp{};
 }
 
+Id Module::OpAtomicFMax(Id result_type, Id pointer, Id memory, Id semantics, Id value) {
+    code->Reserve(7);
+    return *code << OpId{spv::Op::OpAtomicFMaxEXT, result_type} << pointer << memory << semantics
+                 << value << EndOp{};
+}
+
+Id Module::OpAtomicFMin(Id result_type, Id pointer, Id memory, Id semantics, Id value) {
+    code->Reserve(7);
+    return *code << OpId{spv::Op::OpAtomicFMinEXT, result_type} << pointer << memory << semantics
+                 << value << EndOp{};
+}
+
 Id Module::OpAtomicAnd(Id result_type, Id pointer, Id memory, Id semantics, Id value) {
     code->Reserve(7);
     return *code << OpId{spv::Op::OpAtomicAnd, result_type} << pointer << memory << semantics

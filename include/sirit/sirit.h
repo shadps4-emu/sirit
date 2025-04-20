@@ -1369,6 +1369,20 @@ public:
     /// Perform the following steps atomically with respect to any other atomic accesses within
     /// Scope to the same location:
     /// 1) load through Pointer to get an Original Value,
+    /// 2) get a New Value by finding the largest 32bit float of Original Value and Value, and
+    /// 3) store the New Value back through Pointer.
+    Id OpAtomicFMax(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) load through Pointer to get an Original Value,
+    /// 2) get a New Value by finding the smallest 32bit float of Original Value and Value, and
+    /// 3) store the New Value back through Pointer.
+    Id OpAtomicFMin(Id result_type, Id pointer, Id memory, Id semantics, Id value);
+
+    /// Perform the following steps atomically with respect to any other atomic accesses within
+    /// Scope to the same location:
+    /// 1) load through Pointer to get an Original Value,
     /// 2) get a New Value by the bitwise AND of Original Value and Value, and
     /// 3) store the New Value back through Pointer.
     Id OpAtomicAnd(Id result_type, Id pointer, Id memory, Id semantics, Id value);

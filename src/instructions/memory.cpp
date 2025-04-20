@@ -18,13 +18,13 @@ Id Module::OpImageTexelPointer(Id result_type, Id image, Id coordinate, Id sampl
                  << EndOp{};
 }
 
-Id Module::OpLoad(Id result_type, Id pointer, std::optional<spv::MemoryAccessMask> memory_access) {
-    code->Reserve(5);
+Id Module::OpLoad(Id result_type, Id pointer, std::span<const MemoryAccessLiteral> memory_access) {
+    code->Reserve(4 + memory_access.size());
     return *code << OpId{spv::Op::OpLoad, result_type} << pointer << memory_access << EndOp{};
 }
 
-Id Module::OpStore(Id pointer, Id object, std::optional<spv::MemoryAccessMask> memory_access) {
-    code->Reserve(4);
+Id Module::OpStore(Id pointer, Id object, std::span<const MemoryAccessLiteral> memory_access) {
+    code->Reserve(3 + memory_access.size());
     return *code << spv::Op::OpStore << pointer << object << memory_access << EndOp{};
 }
 

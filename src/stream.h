@@ -167,6 +167,11 @@ public:
         return *this;
     }
 
+    Stream& operator<<(const MemoryAccessLiteral& memory_access) {
+        std::visit([this](auto value) { *this << value; }, memory_access);
+        return *this;
+    }
+
     Stream& operator<<(std::string_view string) {
         InsertStringView(words, insert_index, string);
         return *this;

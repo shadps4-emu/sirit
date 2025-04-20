@@ -32,6 +32,8 @@ class Stream;
 using Literal =
     std::variant<std::uint32_t, std::uint64_t, std::int32_t, std::int64_t, float, double>;
 
+using MemoryAccessLiteral = std::variant<spv::MemoryAccessMask, std::uint32_t>;
+
 struct Id {
     std::uint32_t value;
 };
@@ -345,11 +347,25 @@ public:
 
     /// Load through a pointer.
     Id OpLoad(Id result_type, Id pointer,
-              std::optional<spv::MemoryAccessMask> memory_access = std::nullopt);
+        std::span<const MemoryAccessLiteral> memory_access = {});
+
+    /// Load through a pointer.
+    template <typename... Ts>
+    requires(...&& std::is_convertible_v<Ts, MemoryAccessLiteral>) Id
+        OpLoad(Id result_type, Id pointer, Ts&&... memory_access) {
+        return OpLoad(result_type, pointer, std::span<const MemoryAccessLiteral>({memory_access...}));
+    }
 
     /// Store through a pointer.
     Id OpStore(Id pointer, Id object,
-               std::optional<spv::MemoryAccessMask> memory_access = std::nullopt);
+               std::span<const MemoryAccessLiteral> memory_access = {});
+
+    /// Store through a pointer.
+    template <typename... Ts>
+    requires(...&& std::is_convertible_v<Ts, MemoryAccessLiteral>) Id
+        OpStore(Id pointer, Id object, Ts&&... memory_access) {
+        return OpStore(pointer, object, std::span<const MemoryAccessLiteral>({memory_access...}));
+    }
 
     /// Create a pointer into a composite object that can be used with OpLoad and OpStore.
     Id OpAccessChain(Id result_type, Id base, std::span<const Id> indexes = {});

@@ -75,16 +75,16 @@ if (msvc AND NOT clang)
     endif()
 else()
     set(SIRIT_CXX_FLAGS
-        -Wall
+        #-Wall
         -Wextra
-        -Wpedantic
         -Wno-missing-braces
         -Wno-unused-parameter
         -Wno-unknown-pragmas
         -Wno-implicit-fallthrough
         -Wno-unused-variable
         -Wno-c++98-compat
-        -Wno-pre-c++14-compa
+        -Wno-c++98-compat-pedantic
+        -Wno-pre-c++14-compat
         -Wno-pre-c++17-compat
         -Wno-sign-compare)
 endif()

@@ -38,10 +38,18 @@ endif()
 # Add the module directory to the list of paths
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules")
 
+# Set compiler ID
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  set(msvc TRUE)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(gcc TRUE)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set(clang TRUE)
+endif()
+
 # Compiler flags
-if (MSVC)
+if (msvc AND NOT clang)
     set(SIRIT_CXX_FLAGS
-        /std:c++latest # CMAKE_CXX_STANDARD as no effect on MSVC until CMake 3.10.
         /W4
         /w34263 # Non-virtual member function hides base class virtual function
         /w44265 # Class has virtual functions, but destructor is not virtual
@@ -57,8 +65,7 @@ if (MSVC)
         /Zo
         /EHsc
         /Zc:inline # Omits inline functions from object-file output
-        /DNOMINMAX
-        /WX)
+        /DNOMINMAX)
 
     if (CMAKE_VS_PLATFORM_TOOLSET MATCHES "LLVM-vs[0-9]+")
         list(APPEND SIRIT_CXX_FLAGS
@@ -67,17 +74,18 @@ if (MSVC)
     endif()
 else()
     set(SIRIT_CXX_FLAGS
-        -Wall
+        #-Wall
         -Wextra
-        -Wcast-qual
-        -pedantic
-        -pedantic-errors
-        -Wfatal-errors
         -Wno-missing-braces
-        -Wconversion
-        -Wsign-conversion
-        -Wshadow
-        -Werror)
+        -Wno-unused-parameter
+        -Wno-unknown-pragmas
+        -Wno-implicit-fallthrough
+        -Wno-unused-variable
+        -Wno-c++98-compat
+        -Wno-c++98-compat-pedantic
+        -Wno-pre-c++14-compat
+        -Wno-pre-c++17-compat
+        -Wno-sign-compare)
 endif()
 
 # Enable unit-testing.

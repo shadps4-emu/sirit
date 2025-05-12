@@ -38,8 +38,13 @@ endif()
 # Add the module directory to the list of paths
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules")
 
+# Set compiler ID
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  set(msvc TRUE)
+endif()
+
 # Compiler flags
-if (MSVC)
+if (msvc)
     set(SIRIT_CXX_FLAGS
         /std:c++latest # CMAKE_CXX_STANDARD as no effect on MSVC until CMake 3.10.
         /W4
@@ -57,8 +62,7 @@ if (MSVC)
         /Zo
         /EHsc
         /Zc:inline # Omits inline functions from object-file output
-        /DNOMINMAX
-        /WX)
+        /DNOMINMAX)
 
     if (CMAKE_VS_PLATFORM_TOOLSET MATCHES "LLVM-vs[0-9]+")
         list(APPEND SIRIT_CXX_FLAGS
@@ -76,8 +80,7 @@ else()
         -Wno-missing-braces
         -Wconversion
         -Wsign-conversion
-        -Wshadow
-        -Werror)
+        -Wshadow)
 endif()
 
 # Enable unit-testing.

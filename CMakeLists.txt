@@ -41,23 +41,16 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMakeModules")
 # Set compiler ID
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   set(msvc TRUE)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(gcc TRUE)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set(clang TRUE)
 endif()
 
 # Compiler flags
-if (msvc)
+if (msvc AND NOT clang)
     set(SIRIT_CXX_FLAGS
-        /std:c++latest # CMAKE_CXX_STANDARD as no effect on MSVC until CMake 3.10.
-        /W4
-        /w34263 # Non-virtual member function hides base class virtual function
-        /w44265 # Class has virtual functions, but destructor is not virtual
-        /w34456 # Declaration of 'var' hides previous local declaration
-        /w34457 # Declaration of 'var' hides function parameter
-        /w34458 # Declaration of 'var' hides class member
-        /w34459 # Declaration of 'var' hides global definition
-        /w34946 # Reinterpret-cast between related types
-        /wd4592 # Symbol will be dynamically initialized (implementation limitation)
         /permissive- # Stricter C++ standards conformance
-        /MP
         /Zi
         /Zo
         /EHsc

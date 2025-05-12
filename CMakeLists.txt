@@ -75,13 +75,18 @@ if (msvc AND NOT clang)
     endif()
 else()
     set(SIRIT_CXX_FLAGS
-        -Wcast-qual
-        -pedantic
-        -Wfatal-errors
+        -Wall
+        -Wextra
+        -Wpedantic
         -Wno-missing-braces
-        -Wconversion
-        -Wsign-conversion
-        -Wshadow)
+        -Wno-unused-parameter
+        -Wno-unknown-pragmas
+        -Wno-implicit-fallthrough
+        -Wno-unused-variable
+        -Wno-c++98-compat
+        -Wno-pre-c++14-compa
+        -Wno-pre-c++17-compat
+        -Wno-sign-compare)
 endif()
 
 # Enable unit-testing.

@@ -50,7 +50,6 @@ endif()
 # Compiler flags
 if (msvc AND NOT clang)
     set(SIRIT_CXX_FLAGS
-        /std:c++latest # CMAKE_CXX_STANDARD as no effect on MSVC until CMake 3.10.
         /W4
         /w34263 # Non-virtual member function hides base class virtual function
         /w44265 # Class has virtual functions, but destructor is not virtual

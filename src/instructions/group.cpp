@@ -79,4 +79,9 @@ Id Module::OpGroupNonUniformQuadBroadcast(Id result_type, Id scope, Id value, Id
     return *code << OpId{spv::Op::OpGroupNonUniformQuadBroadcast, result_type} << scope << value << index << EndOp{};
 }
 
+Id Module::OpGroupNonUniformBallotFindLSB(Id result_type, Id scope, Id value) {
+    code->Reserve(5);
+    return *code << OpId{spv::Op::OpGroupNonUniformBallotFindLSB, result_type} << scope << value << EndOp{};
+}
+
 } // namespace Sirit

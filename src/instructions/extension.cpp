@@ -7,6 +7,7 @@
 #include <iterator>
 #include <spirv/unified1/AMD_gcn_shader.h>
 #include <spirv/unified1/AMD_shader_trinary_minmax.h>
+#include <spirv/unified1/AMD_shader_explicit_vertex_parameter.h>
 #include <spirv/unified1/GLSL.std.450.h>
 #include <spirv/unified1/NonSemanticDebugPrintf.h>
 
@@ -110,6 +111,8 @@ DEFINE_UNARY(GetAmdGcnShader(), OpCubeFaceCoordAMD, AMD_gcn_shaderCubeFaceCoordA
 DEFINE_UNARY(GetAmdGcnShader(), OpCubeFaceIndexAMD, AMD_gcn_shaderCubeFaceIndexAMD)
 DEFINE_NULLARY(GetAmdGcnShader(), OpTimeAMD, AMD_gcn_shaderTimeAMD)
 
+DEFINE_BINARY(GetAmdExplicitVertexParameter(), OpInterpolateAtVertexAMD, AMD_shader_explicit_vertex_parameterInterpolateAtVertexAMD)
+
 DEFINE_TRINARY(GetAmdShaderTrinaryMinMax(), OpFMin3AMD, AMD_shader_trinary_minmaxFMin3AMD)
 DEFINE_TRINARY(GetAmdShaderTrinaryMinMax(), OpUMin3AMD, AMD_shader_trinary_minmaxUMin3AMD)
 DEFINE_TRINARY(GetAmdShaderTrinaryMinMax(), OpSMin3AMD, AMD_shader_trinary_minmaxSMin3AMD)
@@ -119,5 +122,6 @@ DEFINE_TRINARY(GetAmdShaderTrinaryMinMax(), OpSMax3AMD, AMD_shader_trinary_minma
 DEFINE_TRINARY(GetAmdShaderTrinaryMinMax(), OpFMid3AMD, AMD_shader_trinary_minmaxFMid3AMD)
 DEFINE_TRINARY(GetAmdShaderTrinaryMinMax(), OpUMid3AMD, AMD_shader_trinary_minmaxUMid3AMD)
 DEFINE_TRINARY(GetAmdShaderTrinaryMinMax(), OpSMid3AMD, AMD_shader_trinary_minmaxSMid3AMD)
+
 
 } // namespace Sirit

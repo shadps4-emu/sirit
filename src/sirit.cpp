@@ -175,4 +175,15 @@ Id Module::GetAmdShaderTrinaryMinMax() {
     return *amd_shader_trinary_minmax;
 }
 
+
+Id Module::GetAmdExplicitVertexParameter() {
+    const char* extname = "SPV_AMD_shader_explicit_vertex_parameter";
+    size_t len = WordsInString(extname);
+    if (!amd_explicit_vertex_parameter) {
+        ext_inst_imports->Reserve(3 + len);
+        amd_explicit_vertex_parameter = *ext_inst_imports << OpId{spv::Op::OpExtInstImport} << extname << EndOp{};
+    }
+    return *amd_explicit_vertex_parameter;
+}
+
 } // namespace Sirit

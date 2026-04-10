@@ -1287,6 +1287,10 @@ public:
     /// group xor'ed with mask.
     Id OpGroupNonUniformShuffleXor(Id result_type, Id scope, Id value, Id mask);
 
+    /// Result is true only in the tangled invocation with the lowest id within the Execution scope,
+    /// otherwise result is false.
+    Id OpGroupNonUniformElect(Id result_type, Id scope);
+
     /// Evaluates a predicate for all active invocations in the group, resulting in
     /// true if predicate evaluates to true for all active invocations in the
     /// group, otherwise the result is false.
@@ -1308,6 +1312,15 @@ public:
     /// active and the Predicate for that invocation evaluated to true;
     /// otherwise, it is set to zero.
     Id OpGroupNonUniformBallot(Id result_type, Id scope, Id predicate);
+
+    /// Evaluates a value for all tangled invocations within the Execution scope,
+    /// resulting in true if the bit in Value for the corresponding invocation is set to 1,
+    /// otherwise the result is false.
+    Id OpGroupNonUniformInverseBallot(Id result_type, Id scope, Id value);
+
+    /// Result is the number of bits that are set to 1 in Value, considering only
+    /// the bits in Value required to represent all bits of the scope restricted tangle.
+    Id OpGroupNonUniformBallotBitCount(Id result_type, Id scope, spv::GroupOperation group_op, Id value);
 
     /// Result is the Value of the invocation within the quad with a quad index equal to Index.
     Id OpGroupNonUniformQuadBroadcast(Id result_type, Id scope, Id value, Id index);

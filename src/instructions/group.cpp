@@ -54,6 +54,11 @@ Id Module::OpGroupNonUniformShuffleXor(Id result_type, Id scope, Id value, Id ma
                  << mask << EndOp{};
 }
 
+Id Module::OpGroupNonUniformElect(Id result_type, Id scope) {
+    code->Reserve(4);
+    return *code << OpId{spv::Op::OpGroupNonUniformElect, result_type} << scope << EndOp{};
+}
+
 Id Module::OpGroupNonUniformAll(Id result_type, Id scope, Id predicate) {
    code->Reserve(5);
    return *code << OpId{spv::Op::OpGroupNonUniformAll, result_type} << scope << predicate << EndOp{};
@@ -72,6 +77,16 @@ Id Module::OpGroupNonUniformAllEqual(Id result_type, Id scope, Id value) {
 Id Module::OpGroupNonUniformBallot(Id result_type, Id scope, Id predicate) {
    code->Reserve(5);
    return *code << OpId{spv::Op::OpGroupNonUniformBallot, result_type} << scope << predicate << EndOp{};
+}
+
+Id Module::OpGroupNonUniformInverseBallot(Id result_type, Id scope, Id value) {
+    code->Reserve(5);
+    return *code << OpId{spv::Op::OpGroupNonUniformInverseBallot, result_type} << scope << value << EndOp{};
+}
+
+Id Module::OpGroupNonUniformBallotBitCount(Id result_type, Id scope, spv::GroupOperation group_op, Id value) {
+    code->Reserve(6);
+    return *code << OpId{spv::Op::OpGroupNonUniformBallotBitCount, result_type} << scope << group_op << value << EndOp{};
 }
 
 Id Module::OpGroupNonUniformQuadBroadcast(Id result_type, Id scope, Id value, Id index) {

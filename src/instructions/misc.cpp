@@ -35,4 +35,9 @@ void Module::OpEndStreamPrimitive(Id stream) {
     *code << spv::Op::OpEndStreamPrimitive << stream << EndOp{};
 }
 
+Id Module::OpReadClockKHR(Id result_type, Id scope) {
+    code->Reserve(4);
+    return *code << OpId{spv::Op::OpReadClockKHR, result_type} << scope << EndOp{};
+}
+
 } // namespace Sirit

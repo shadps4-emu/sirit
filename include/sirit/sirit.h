@@ -477,6 +477,8 @@ public:
     /// Finish the current primitive and start a new one. No vertex is emitted.
     void OpEndStreamPrimitive(Id stream);
 
+    Id OpReadClockKHR(Id result_type, Id scope);
+
     // Barrier
 
     /// Wait for other invocations of this module to reach the current point of execution.

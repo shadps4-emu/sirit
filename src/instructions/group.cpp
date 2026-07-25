@@ -60,22 +60,22 @@ Id Module::OpGroupNonUniformElect(Id result_type, Id scope) {
 }
 
 Id Module::OpGroupNonUniformAll(Id result_type, Id scope, Id predicate) {
-   code->Reserve(5);
+    code->Reserve(5);
    return *code << OpId{spv::Op::OpGroupNonUniformAll, result_type} << scope << predicate << EndOp{};
 }
 
 Id Module::OpGroupNonUniformAny(Id result_type, Id scope, Id predicate) {
-   code->Reserve(5);
+    code->Reserve(5);
    return *code << OpId{spv::Op::OpGroupNonUniformAny, result_type} << scope << predicate << EndOp{};
 }
 
 Id Module::OpGroupNonUniformAllEqual(Id result_type, Id scope, Id value) {
-   code->Reserve(5);
+    code->Reserve(5);
    return *code << OpId{spv::Op::OpGroupNonUniformAllEqual, result_type} << scope << value << EndOp{};
 }
 
 Id Module::OpGroupNonUniformBallot(Id result_type, Id scope, Id predicate) {
-   code->Reserve(5);
+    code->Reserve(5);
    return *code << OpId{spv::Op::OpGroupNonUniformBallot, result_type} << scope << predicate << EndOp{};
 }
 
@@ -96,7 +96,13 @@ Id Module::OpGroupNonUniformQuadBroadcast(Id result_type, Id scope, Id value, Id
 
 Id Module::OpGroupNonUniformBallotFindLSB(Id result_type, Id scope, Id value) {
     code->Reserve(5);
-    return *code << OpId{spv::Op::OpGroupNonUniformBallotFindLSB, result_type} << scope << value << EndOp{};
+    return *code << OpId{spv::Op::OpGroupNonUniformBallotFindLSB, result_type} << scope << value
+                 << EndOp{};
 }
 
+Id Module::OpGroupNonUniformIAdd(Id result_type, Id scope, spv::GroupOperation group_operation, Id value) {
+    code->Reserve(6);
+    return *code << OpId{spv::Op::OpGroupNonUniformIAdd, result_type} << scope << group_operation
+                 << value << EndOp{};
+}
 } // namespace Sirit

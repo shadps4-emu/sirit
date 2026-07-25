@@ -1277,11 +1277,9 @@ public:
     // the resulting value is undefined.
     Id OpGroupNonUniformBallotFindLSB(Id result_type, Id scope, Id value);
 
-    Id OpGroupNonUniformBallotBitCount(Id result_type, Id scope,
-                                       spv::GroupOperation group_operation, Id value);
-
-    Id OpGroupNonUniformIAdd(Id result_type, Id scope, spv::GroupOperation group_operation,
-                             Id value);
+    // An integer add group operation of all Value operands contributed by all tangled invocations
+    // within the Execution scope.
+    Id OpGroupNonUniformIAdd(Id result_type, Id scope, spv::GroupOperation group_operation, Id value);
 
     // Result is the Value of the invocation identified by the id Id to all active invocations in
     // the group.

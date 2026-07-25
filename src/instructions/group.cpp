@@ -100,15 +100,7 @@ Id Module::OpGroupNonUniformBallotFindLSB(Id result_type, Id scope, Id value) {
                  << EndOp{};
 }
 
-Id Module::OpGroupNonUniformBallotBitCount(Id result_type, Id scope,
-                                           spv::GroupOperation group_operation, Id value) {
-    code->Reserve(6);
-    return *code << OpId{spv::Op::OpGroupNonUniformBallotBitCount, result_type} << scope
-                 << group_operation << value << EndOp{};
-}
-
-Id Module::OpGroupNonUniformIAdd(Id result_type, Id scope, spv::GroupOperation group_operation,
-                                 Id value) {
+Id Module::OpGroupNonUniformIAdd(Id result_type, Id scope, spv::GroupOperation group_operation, Id value) {
     code->Reserve(6);
     return *code << OpId{spv::Op::OpGroupNonUniformIAdd, result_type} << scope << group_operation
                  << value << EndOp{};

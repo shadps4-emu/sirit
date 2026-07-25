@@ -18,8 +18,7 @@ Id Module::OpAtomicLoad(Id result_type, Id pointer, Id memory, Id semantics) {
 
 Id Module::OpAtomicStore(Id pointer, Id memory, Id semantics, Id value) {
     code->Reserve(5);
-    return *code << OpId{spv::Op::OpAtomicStore} << pointer << memory << semantics << value
-                 << EndOp{};
+    return *code << spv::Op::OpAtomicStore << pointer << memory << semantics << value << EndOp{};
 }
 
 Id Module::OpAtomicExchange(Id result_type, Id pointer, Id memory, Id semantics, Id value) {

@@ -77,7 +77,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) void AddEntryPoint(
         spv::ExecutionModel execution_model, Id entry_point, std::string_view name,
-        Ts&&... interfaces) {
+                       Ts&&... interfaces) {
         AddEntryPoint(execution_model, std::move(entry_point), name,
                       std::span<const Id>({interfaces...}));
     }
@@ -280,7 +280,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpLoopMerge(Id merge_block, Id continue_target, spv::LoopControlMask loop_control,
-                    Ts&&... literals) {
+                   Ts&&... literals) {
         return OpLoopMerge(merge_block, continue_target, loop_control,
                            std::span<const Id>({literals...}));
     }
@@ -453,7 +453,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Literal>) Id
         MemberDecorate(Id structure_type, Literal member, spv::Decoration decoration,
-                       Ts&&... literals) {
+                      Ts&&... literals) {
         const Literal stack_literals[] = {std::forward<Ts>(literals)...};
         return MemberDecorate(structure_type, member, decoration,
                               std::span<const Literal>{stack_literals});
@@ -1009,7 +1009,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleImplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                 spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleImplicitLod(result_type, sampled_image, coordinate, image_operands,
                                         std::span<const Id>({operands...}));
     }
@@ -1023,7 +1023,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleExplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                 spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleExplicitLod(result_type, sampled_image, coordinate, image_operands,
                                         std::span<const Id>({operands...}));
     }
@@ -1038,7 +1038,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleDrefImplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleDrefImplicitLod(result_type, sampled_image, coordinate, dref,
                                             image_operands, std::span<const Id>({operands...}));
     }
@@ -1052,7 +1052,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleDrefExplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleDrefExplicitLod(result_type, sampled_image, coordinate, dref,
                                             image_operands, std::span<const Id>({operands...}));
     }
@@ -1067,7 +1067,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleProjImplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjImplicitLod(result_type, sampled_image, coordinate, image_operands,
                                             std::span<const Id>({operands...}));
     }
@@ -1081,7 +1081,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleProjExplicitLod(Id result_type, Id sampled_image, Id coordinate,
-                                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjExplicitLod(result_type, sampled_image, coordinate, image_operands,
                                             std::span<const Id>({operands...}));
     }
@@ -1098,7 +1098,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleProjDrefImplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                         spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                        spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjDrefImplicitLod(result_type, sampled_image, coordinate, dref,
                                                 image_operands, std::span<const Id>({operands...}));
     }
@@ -1114,7 +1114,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageSampleProjDrefExplicitLod(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                                         spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                                        spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageSampleProjDrefExplicitLod(result_type, sampled_image, coordinate, dref,
                                                 image_operands, std::span<const Id>({operands...}));
     }
@@ -1128,7 +1128,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageFetch(Id result_type, Id sampled_image, Id coordinate,
-                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageFetch(result_type, sampled_image, coordinate, image_operands,
                             std::span<const Id>({operands...}));
     }
@@ -1142,7 +1142,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageGather(Id result_type, Id sampled_image, Id coordinate, Id component,
-                      spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                     spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageGather(result_type, sampled_image, coordinate, component, image_operands,
                              std::span<const Id>({operands...}));
     }
@@ -1156,7 +1156,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageDrefGather(Id result_type, Id sampled_image, Id coordinate, Id dref,
-                          spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                         spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageDrefGather(result_type, sampled_image, coordinate, dref, image_operands,
                                  std::span<const Id>({operands...}));
     }
@@ -1170,7 +1170,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageRead(Id result_type, Id sampled_image, Id coordinate,
-                    spv::ImageOperandsMask image_operands, Ts&&... operands) {
+                   spv::ImageOperandsMask image_operands, Ts&&... operands) {
         return OpImageRead(result_type, sampled_image, coordinate, image_operands,
                            std::span<const Id>({operands...}));
     }
@@ -1184,7 +1184,7 @@ public:
     template <typename... Ts>
     requires(...&& std::is_convertible_v<Ts, Id>) Id
         OpImageWrite(Id image, Id coordinate, Id texel, spv::ImageOperandsMask image_operands,
-                     Ts&&... operands) {
+                    Ts&&... operands) {
         return OpImageWrite(image, coordinate, texel, image_operands,
                             std::span<const Id>({operands...}));
     }
@@ -1276,6 +1276,12 @@ public:
     // to represent all bits of the scope restricted tangle. If none of the considered bits is set to 1,
     // the resulting value is undefined.
     Id OpGroupNonUniformBallotFindLSB(Id result_type, Id scope, Id value);
+
+    Id OpGroupNonUniformBallotBitCount(Id result_type, Id scope,
+                                       spv::GroupOperation group_operation, Id value);
+
+    Id OpGroupNonUniformIAdd(Id result_type, Id scope, spv::GroupOperation group_operation,
+                             Id value);
 
     // Result is the Value of the invocation identified by the id Id to all active invocations in
     // the group.

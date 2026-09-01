@@ -1289,6 +1289,9 @@ public:
     // in the group to all active invocations in the group.
     Id OpGroupNonUniformBroadcastFirst(Id result_type, Id scope, Id value);
 
+    /// Result is the Value of the invocation identified by the id invocation_id.
+    Id OpGroupNonUniformShuffle(Id result_type, Id scope, Id value, Id invocation_id);
+
     /// Return the value of the invocation identified by the current invocation's id within the
     /// group xor'ed with mask.
     Id OpGroupNonUniformShuffleXor(Id result_type, Id scope, Id value, Id mask);

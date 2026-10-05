@@ -111,4 +111,11 @@ Id Module::OpGroupNonUniformIAdd(Id result_type, Id scope, spv::GroupOperation g
     return *code << OpId{spv::Op::OpGroupNonUniformIAdd, result_type} << scope << group_operation
                  << value << EndOp{};
 }
+
+Id Module::OpGroupNonUniformUMin(Id result_type, Id scope, spv::GroupOperation group_operation,
+                                 Id value) {
+    code->Reserve(6);
+    return *code << OpId{spv::Op::OpGroupNonUniformUMin, result_type} << scope << group_operation
+                 << value << EndOp{};
+}
 } // namespace Sirit
